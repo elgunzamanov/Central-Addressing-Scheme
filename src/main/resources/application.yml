@@ -1,0 +1,16 @@
+spring:
+   application:
+      name: central-addressing-scheme
+   datasource:
+      url: jdbc:mysql://localhost:3306/central_addressing_scheme
+      username: elgunzv
+      password: 2301
+      driver-class-name: com.mysql.cj.jdbc.Driver
+   jpa:
+      database-platform: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+         ddl-auto: update
+      show-sql: true
+      properties:
+         hibernate:
+            format_sql: true
