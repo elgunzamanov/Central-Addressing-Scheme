@@ -3,13 +3,16 @@ package com.example.service;
 import com.example.dto.CustomerRequestDto;
 import com.example.dto.CustomerResponseDto;
 import com.example.entity.customer.Customer;
+import com.example.error.CustomerNotFoundException;
 import com.example.repository.CustomerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CustomerService {
 	private final CustomerRepository customerRepository;
@@ -35,8 +38,11 @@ public class CustomerService {
 			.toList();
 	}
 	
-	public CustomerRequestDto getCustomer(Long id) {
-		return modelMapper.map(customerRepository.findById(id).orElseThrow(), CustomerRequestDto.class);
+	public CustomerRequestDto getCustomer(Long id) throws CustomerNotFoundException {
+		return modelMapper.map(customerRepository.findById(id).orElseThrow(() -> {
+			log.error("Finding a customer by id {}", id);
+			return new CustomerNotFoundException("Customer Not Found 😕");
+		}), CustomerRequestDto.class);
 	}
 	
 	public void deleteCustomer(Long id) {

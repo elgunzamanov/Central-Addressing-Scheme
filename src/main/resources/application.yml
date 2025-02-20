@@ -14,3 +14,8 @@ spring:
       properties:
          hibernate:
             format_sql: true
+logging:
+   level:
+      root: info
+      org.springframework.web: debug
+      com.example: info
